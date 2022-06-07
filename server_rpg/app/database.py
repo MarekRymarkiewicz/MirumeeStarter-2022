@@ -23,4 +23,5 @@ def cursor():
         try:
             yield cur
         finally:
+            cur.commit()
             cur.close()
