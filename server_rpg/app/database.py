@@ -11,6 +11,8 @@ def connection():
     conn = sqlite3.connect(db)
     try:
         yield conn
+    except sqlite3.IntegrityError:
+        raise
     except Exception:
         conn.rollback()
     finally:
