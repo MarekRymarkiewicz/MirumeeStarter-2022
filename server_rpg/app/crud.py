@@ -41,3 +41,9 @@ def get_player_by_id(db, player_id):
         return None
     return player_to_dict(*player)
 
+
+def set_player_status(db, player_id, status):
+    query = "UPDATE players SET status = :status WHERE rowid =:player_id"
+    params = {"player_id": player_id, "status": status}
+    player = db.execute(query, params)
+    return get_player_by_id(db, player_id)
