@@ -3,7 +3,7 @@ def player_to_dict(id, name, profession, hp, attack_points, status, kills, death
             "name": name,
             "profession": profession,
             "hp": hp,
-            "attack_point": attack_points,
+            "attack_points": attack_points,
             "status": status,
             "deaths": deaths,
             "kills": kills}
@@ -28,3 +28,4 @@ def default_profession_parameters(profession):
         return profession_dict[profession]
     except KeyError:
         return False
+
