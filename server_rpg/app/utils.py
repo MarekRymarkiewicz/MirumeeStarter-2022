@@ -5,11 +5,13 @@ def player_to_dict(id, name, profession, hp, attack_points, status, kills, death
             "hp": hp,
             "attack_points": attack_points,
             "status": status,
-            "deaths": deaths,
-            "kills": kills}
+            "kills": kills,
+            "deaths": deaths
+            }
 
 
 def default_profession_parameters(profession):
+    profession = profession.lower()
     profession_dict = {
                    "mage": {
                         "attack_points": 18,

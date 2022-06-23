@@ -1,3 +1,5 @@
+import json
+
 from starlette.applications import Starlette
 from starlette.routing import Route
 from starlette.exceptions import HTTPException
@@ -5,7 +7,7 @@ from starlette.responses import JSONResponse
 from database import cursor
 from utils import default_profession_parameters
 from crud import get_players, get_player_by_name, create_player, get_player_by_id, set_player_status, player_attack
-from exceptions import PlayerAlreadyExists, PlayerDoesNotExist, PlayerIsOffline, PlayerIsDead
+from exceptions import PlayerAlreadyExists, PlayerDoesNotExist, PlayerIsOffline, PlayerIsDead, FieldAlreadySet
 from starlette.templating import Jinja2Templates
 
 templates = Jinja2Templates(directory='templates')
@@ -67,7 +69,10 @@ async def set_player_status_offline(request):
             player = get_player_by_id(cur, request.path_params['player_id'])
         except PlayerDoesNotExist:
             raise HTTPException(status_code=404, detail="No character found.")
-        player = set_player_status(cur, request.path_params['player_id'], "offline")
+        try:
+            player = set_player_status(cur, request.path_params['player_id'], "offline")
+        except FieldAlreadySet:
+            raise HTTPException(status_code=409, detail="Player is already offline.")
     return JSONResponse(player)
 
 
@@ -77,14 +82,27 @@ async def set_player_status_online(request):
             player = get_player_by_id(cur, request.path_params['player_id'])
         except PlayerDoesNotExist:
             raise HTTPException(status_code=404, detail="No character found.")
-        player = set_player_status(cur, request.path_params['player_id'], "online")
+        try:
+            player = set_player_status(cur, request.path_params['player_id'], "online")
+        except FieldAlreadySet:
+            raise HTTPException(status_code=409, detail="Player is already online.")
     return JSONResponse(player)
 
 
 async def attack(request):
-    data = await request.json()
+    try:
+        data = await request.json()
+    except json.decoder.JSONDecodeError:
+        raise HTTPException(status_code=409, detail="You need to send target's ID via JSON request.")
+
     player_id = request.path_params['player_id']
-    target_id = data["enemy_player_id"]
+    try:
+        target_id = data["enemy_player_id"]
+        int(target_id)
+    except KeyError:
+        raise HTTPException(status_code=409, detail="You must provide target's ID.")
+    except ValueError:
+        raise HTTPException(status_code=409, detail="Target's ID has to be an integer.")
 
     if player_id == target_id:
         raise HTTPException(status_code=409, detail="Player cannot target himself.")
