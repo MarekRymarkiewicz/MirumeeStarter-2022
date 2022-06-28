@@ -12,7 +12,8 @@ with cursor() as cur:
             attack_points INTEGER,
             status text NOT NULL DEFAULT 'offline',
             kills INTEGER DEFAULT 0,
-            deaths INTEGER DEFAULT 0
+            deaths INTEGER DEFAULT 0,
+            password text NOT NULL
         )
         '''
     )

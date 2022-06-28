@@ -1,0 +1,37 @@
+body{
+	background-color:#f3f3f3;
+}
+#player_login_form{
+	width:30em;
+	min-height:240px;
+	background-color:white;
+}
+#player_login_form h5{
+    cursor:default;
+}
+#field_clear_button{
+	position:relative;
+	padding: 0px;
+	border: none;
+	background: none;
+	height:36px;
+	width:92px;
+	z-index:1;
+}
+#field_clear_button::after{
+	content:"";
+	position:absolute;
+	background-color: #0dcaf0;
+	bottom: 6px;
+    left: 0;
+    width: 0;
+    height: 2px;
+	transition: 0.6s;
+	z-index:100;
+}
+#field_clear_button:hover::after{
+	width: 100%;
+}
+.invalid-border{
+    border-color: red !important;
+}
