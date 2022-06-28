@@ -4,6 +4,7 @@ from functools import wraps
 SECRET_KEY = "CustodianKey"
 from hashlib import sha256
 
+
 # Decorators
 def require_token(fn):
     @wraps(fn)
