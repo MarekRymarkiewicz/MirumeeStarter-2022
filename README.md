@@ -1,2 +1,2 @@
 # MirumeeStarter
-A library of short python programs created during Mirumee Starter program.
+Simple API allowing users to create fantasy characters and battle with other players.
