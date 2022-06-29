@@ -156,7 +156,6 @@ async def login(request):
          "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60)},
         SECRET_KEY
         )
-    #
     # with cursor() as cur:
     #     set_player_status(cur, get_player_by_name(cur, provided_credentials["character_name"])["id"], "online")
 
@@ -180,18 +179,6 @@ async def login_form(request):
     return templates.TemplateResponse("login.html", context)
 
 
-# Form data parser
-# async def login_form_data(request):
-#     form_data = await request.form()
-#     provided_credentials = {"character_name": form_data["character_name"], "password": form_data['password']}
-#     if provided_credentials["password"] != 'qwerty':
-#         response = RedirectResponse(url="login_form?state=invalid")
-#         return response
-#     return JSONResponse(provided_credentials)
-    # context = {"request": request}
-    # return templates.TemplateResponse("login.html", context)
-
-
 async def login_form_data(request):
     form_data = await request.form()
     try:
@@ -212,7 +199,6 @@ async def login_form_data(request):
          "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60)},
         SECRET_KEY
         )
-    #
     # with cursor() as cur:
     #     set_player_status(cur, get_player_by_name(cur, provided_credentials["character_name"])["id"], "online")
 
